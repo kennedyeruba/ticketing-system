@@ -6,6 +6,7 @@ import Navbar from './NavBar/Navbar'
 import CardView from './CardView/CardView'
 import DashboardActionBar from './DashboardActionBar/DashboardActionBar'
 import AddTicket from '../Dashboard/AddTicket/AddTicket'
+import ListView from './ListView/ListView'
 
 export default function Dashboard() {
 
@@ -14,7 +15,8 @@ export default function Dashboard() {
         <Navbar />
         <div className='w-4/6 mx-auto'>
           <DashboardActionBar />
-          <CardView />
+          {/* <CardView /> */}
+          <ListView />
         </div>
     </Box>
   )

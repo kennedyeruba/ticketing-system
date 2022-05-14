@@ -31,7 +31,9 @@ const DashboardActionBar = () => {
         event: React.MouseEvent<HTMLElement>,
         _viewType: string,
     ) => {
-        setViewType(_viewType);
+        // setViewType(_viewType);
+        console.log(_viewType)
+        console.log(event)
     };
 
     return (
