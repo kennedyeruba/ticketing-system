@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
 
 function App() {
-  const [auth, setAuth] = useState(true)
+  const [auth, setAuth] = useState(false)
 
   const onAuthEvent = () => {
     setAuth(!auth)
