@@ -9,6 +9,7 @@ interface TicketingSystemState {
     toggleTicketDialog: (status: boolean) => void
     setDashboardViewType: (_viewType: string) => void
     createNewTicket: (ticket: Ticket) => void
+    getTickets: () => void
 }
 
 let useTicketingSystemStore = create<TicketingSystemState>(set => ({
@@ -22,6 +23,11 @@ let useTicketingSystemStore = create<TicketingSystemState>(set => ({
         const response = await fetch('https://localhost:6000/api/v1/ticket')
         const newTicket = await response.json()
         set(state => ({ tickets: [newTicket, ...state.tickets] }))
+    },
+    getTickets: async () => {
+        const response = await fetch('https://localhost:6000/api/v1/ticket')
+        const tickets = await response.json()
+        set({ tickets })
     }
 }))
 
