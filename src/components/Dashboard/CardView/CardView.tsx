@@ -2,16 +2,16 @@ import React, {useState, useEffect} from 'react'
 import Ticket from '../../../models/ticket.models'
 import { Box, Grid } from '@mui/material'
 import CardItem from './CardItem/CardItem'
-import { createNewTicket } from '../../../helpers/ticket-utilities'
+import { createTicket } from '../../../helpers/ticket-utilities'
 
 export default function CardView() {
   const [tickets, setTickets] = useState<Ticket[]>([])
 
   useEffect(() => {
     const newTickets: Ticket[] = [
-      createNewTicket(),
-      createNewTicket(),
-      createNewTicket()
+      // createNewTicket(),
+      // createNewTicket(),
+      // createNewTicket()
     ]
     setTickets(newTickets)
   }, [])

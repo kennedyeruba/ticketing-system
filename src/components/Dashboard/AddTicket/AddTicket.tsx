@@ -1,26 +1,39 @@
-import React, { useState, useEffect } from 'react'
-import { Box, Button, Dialog, TextField, DialogContent, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Button, Dialog, TextField, DialogContent, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import useTicketingSystemStore from '../../../store/useTicketingSystemStore'
+import { createTicket } from '../../../helpers/ticket-utilities'
 
-interface AddTicketPropType {
-    dialogStatus: boolean
-  }
+export default function AddTicket() { 
+    const ticketingSystemStore = useTicketingSystemStore
+    const ticketDialogStatus = ticketingSystemStore(state => state.ticketDialogStatus)
 
-export default function AddTicket({ dialogStatus }: AddTicketPropType) {
-    const [ticketDialogStatus, setTicketDialogStatus] = useState(false);
-
-    useEffect(() => {
-        setTicketDialogStatus(dialogStatus);
-        console.log('open dialog')
-    }, [dialogStatus])
+    const [ticketTitle, setTicketTitle] = useState('')
+    const [ticketDescription, setTicketDescription] = useState('')
+    const [ticketAssignee, setTicketAssignee] = useState('')
 
     const handleClose = () => {
-        setTicketDialogStatus(false);
+        ticketingSystemStore.getState().toggleTicketDialog(false)
     };
 
-    const addTicketStyle = {
-        dialog: {
-            width: '400px'
-        }
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTicketTitle(event.target.value as string);
+    };
+
+    const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTicketDescription(event.target.value as string);
+    };
+
+    const handleAssigneeChange = (event: SelectChangeEvent) => {
+        setTicketAssignee(event.target.value as string);
+      };
+
+    const handleAddTicket = () => {
+        const newTicket = createTicket(ticketTitle, ticketDescription, ticketAssignee)
+        ticketingSystemStore.getState().createNewTicket(newTicket)
+        ticketingSystemStore.setState({ ticketDialogStatus: false })
+        setTicketTitle('')
+        setTicketDescription('')
+        setTicketAssignee('')
     }
 
     return (
@@ -31,48 +44,38 @@ export default function AddTicket({ dialogStatus }: AddTicketPropType) {
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="name"
                         label="Enter Title"
                         fullWidth
                         variant="filled"
+                        value={ticketTitle}
+                        onChange={handleTitleChange}
                     />
                     <TextField
                         margin="dense"
-                        id="name"
                         label="Enter Description"
                         fullWidth
                         multiline
                         rows={4}
                         variant="filled"
+                        value={ticketDescription}
+                        onChange={handleDescriptionChange}
                     />
                     <FormControl variant="filled" sx={{ width: '100%', mt: 1 }}>
                         <InputLabel id="demo-simple-select-filled-label">Assignee</InputLabel>
                         <Select
                             labelId="demo-simple-select-filled-label"
-                            id="demo-simple-select-filled"
+                            value={ticketAssignee}
+                            onChange={handleAssigneeChange}
                         >
-                            <MenuItem value={0}>Alice</MenuItem>
-                            <MenuItem value={0}>Seyram</MenuItem>
-                            <MenuItem value={0}>John</MenuItem>
+                            <MenuItem value='alice'>Alice</MenuItem>
+                            <MenuItem value='seyram'>Seyram</MenuItem>
+                            <MenuItem value='john'>John</MenuItem>
                         </Select>
                     </FormControl>
-                    <Button variant="contained" sx={{ width: '100%', mt: 1 }}>ADD TICKET</Button>
+                    <Button variant="contained" sx={{ width: '100%', mt: 1 }} onClick={handleAddTicket}>ADD TICKET</Button>
                 </DialogContent>
             </Dialog>
             {/* Ticket Dialog End */}
-            {/* <Dialog open={ticketOpen} onClose={handleClose} sx={addTicketStyle.dialog}>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="filled"
-                    />
-                </DialogContent>
-            </Dialog> */}
         </Box> 
     )
 }

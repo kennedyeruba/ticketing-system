@@ -1,27 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Stack, Button, ToggleButtonGroup, ToggleButton, Dialog, DialogContent, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material'
 
 import AddIcon from '@mui/icons-material/Add';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import AddTicket from '../AddTicket/AddTicket'
+import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
 
-interface DashboardActionBarProps {
-    onTicketDialogChange: Function
-    onViewTypeChange: Function
-}
-
-const DashboardActionBar = (props: DashboardActionBarProps) => {
-    const [viewType, setViewType] = useState('card')
-    const [open, setOpen] = useState(() => false);
-
-    // const handleClickOpen = () => {
-    //   setOpen(true);
-    // };
-
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
+const DashboardActionBar = () => {
+    const ticketingSystemStore = useTicketingSystemStore
+    const dashboardViewType = ticketingSystemStore(state => state.viewType)
+    const [viewType, setViewType] = useState(dashboardViewType)
 
     const dashboardActionBarStyle = {
         container: 'border-b-2 h-16 border-gray-200 pt-4 pb-2.5',
@@ -37,12 +25,11 @@ const DashboardActionBar = (props: DashboardActionBarProps) => {
         _viewType: string,
     ) => {
         setViewType(_viewType);
-        props.onViewTypeChange(_viewType)
+        ticketingSystemStore.getState().setDashboardViewType(_viewType)
     };
 
     const addTicketAction = () => {
-        setOpen(true);
-        props.onTicketDialogChange()
+        useTicketingSystemStore.getState().toggleTicketDialog(true)
     }
 
     return (

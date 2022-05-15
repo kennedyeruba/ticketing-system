@@ -1,14 +1,14 @@
 import Ticket from "../models/ticket.models"
 
-export function createNewTicket(): Ticket {
+export function createTicket(title: string, description: string, assigneeName: string): Ticket {
     return {
         id: '',
         creationDate: '',
-        title: '',
-        description: '',
+        title,
+        description,
         assignee: {
           id: '',
-          firstName: '',
+          firstName: assigneeName,
           lastName: '',
           email: ''
         },
