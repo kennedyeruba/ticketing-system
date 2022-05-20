@@ -9,9 +9,7 @@ export default function CardView() {
 
   useEffect(() => {
     const newTickets: Ticket[] = [
-      // createNewTicket(),
-      // createNewTicket(),
-      // createNewTicket()
+      createTicket('','','')
     ]
     setTickets(newTickets)
   }, [])

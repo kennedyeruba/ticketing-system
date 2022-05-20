@@ -26,7 +26,7 @@ export default function CardItem({ data }: CardItemPropType) {
   }
 
   useEffect(() => {
-   setStatus('open') 
+   setStatus('open')
   }, [])
 
   return (
