@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Card, CardMedia, CardContent, Typography, CardActions } from '@mui/material'
-import Ticket from '../../../../models/ticket.models'
+import Ticket from '../../../../../models/ticket.models'
 import './CardItem.css'
 
 interface CardItemPropType {

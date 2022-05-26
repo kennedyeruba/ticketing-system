@@ -2,61 +2,64 @@ import { useState } from 'react';
 import { 
     List, 
     ListItem, 
-    ListItemButton, 
-    ListItemIcon, 
+    ListItemButton,
     ListItemText, 
     Divider, 
     Box,
-    Drawer
+    Drawer,
+    ListItemAvatar,
+    Avatar
 } from '@mui/material'
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import GroupIcon from '@mui/icons-material/Group';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
 
 const SideBar = () => {
+    const ticketingSystemStore = useTicketingSystemStore
+    const anchor = ticketingSystemStore(state => state.sideBarAnchor)
 
-    const [anchor, setAnchor] = useState(false)
-
-    const toggleDrawer = (open: boolean) => { 
-        setAnchor(open)
+    const toggleDrawer = (value: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+        ticketingSystemStore.getState().toggleSideBar(value)
     }
-
-    // const list = () => (
-    //     <Box
-    //       sx={{ width: 250 }}
-    //       role="presentation"
-    //       onClick={toggleDrawer(false)}
-    //       onKeyDown={toggleDrawer(false)}
-    //     >
-    //       <List>
-    //         <ListItem disablePadding>
-    //             <ListItemButton>
-    //                 <ListItemIcon>
-    //                     <InboxIcon />
-    //                 </ListItemIcon>
-    //                 <ListItemText primary={'Assignees'} />
-    //             </ListItemButton>
-    //         </ListItem>
-    //         <Divider />
-    //         <ListItem disablePadding>
-    //             <ListItemButton>
-    //                 <ListItemIcon>
-    //                     <MailIcon />
-    //                 </ListItemIcon>
-    //                 <ListItemText primary={'Tickets'} />
-    //             </ListItemButton>
-    //         </ListItem>
-    //       </List>
-    //     </Box>
-    // )
 
     return (
         <div>
             <Drawer
-            //   anchor={'sidebar'}
-            //   open={open}
-            //   onClose={toggleDrawer(false)}
+              anchor={'left'}
+              open={anchor}
+              onClose={toggleDrawer(false)}
             >
-              {/* {list()} */}
+              <Box
+                sx={{ width: 250 }}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                //   onKeyDown={toggleDrawer(false)}
+                >
+                    <List>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => ticketingSystemStore.getState().setActivePageView('tickets')}>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: 'rgb(56, 115, 203)', width: 33, height: 33 }}>
+                                        <DynamicFeedIcon fontSize="small"/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={'Tickets'} />
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider variant="inset" />
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => ticketingSystemStore.getState().setActivePageView('users')}>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: 'rgb(56, 115, 203)', width: 33, height: 33 }}>
+                                        <GroupIcon fontSize="small"/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText sx={{ fontSize: '2px' }} primary={'Users'} />
+                            </ListItemButton>
+                        </ListItem> 
+                    </List>
+                </Box>
             </Drawer>
         </div>
     )

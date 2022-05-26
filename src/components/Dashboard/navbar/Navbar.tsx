@@ -1,18 +1,20 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Divider } from '@mui/material'
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material'
+import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
 
 export default function Navbar() {
+    const ticketingSystemStore = useTicketingSystemStore
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+    };
 
-  const handleClose = () => {
+    const handleClose = () => {
     setAnchorEl(null);
-  };
+    };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   return (
     <AppBar position="static">
@@ -23,6 +25,7 @@ export default function Navbar() {
                 color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2 }}
+                onClick={() => ticketingSystemStore.getState().toggleSideBar(true)}
             >
                 <MenuIcon />
             </IconButton>

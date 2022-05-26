@@ -7,9 +7,15 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
 
 const DashboardActionBar = () => {
-    const ticketingSystemStore = useTicketingSystemStore
-    const dashboardViewType = ticketingSystemStore(state => state.viewType)
-    const [viewType, setViewType] = useState(dashboardViewType)
+    const ticketingSystemStore = useTicketingSystemStore;
+    const dashboardViewType = ticketingSystemStore(state => state.ticketViewType);
+    const currentPageView = ticketingSystemStore(state => state.activePageView);
+    const [viewType, setViewType] = useState(dashboardViewType);
+    const [activePageView, setActivePageView] = useState(() => currentPageView);
+
+    useEffect(() => {
+        setActivePageView(currentPageView);
+    }, [currentPageView])
 
     const dashboardActionBarStyle = {
         container: 'border-b-2 h-16 border-gray-200 pt-4 pb-2.5',
@@ -32,33 +38,44 @@ const DashboardActionBar = () => {
         useTicketingSystemStore.getState().toggleTicketDialog(true)
     }
 
+    const displayAddButton = () => {
+        if(activePageView == 'tickets') {
+            return (<Button variant="contained" startIcon={<AddIcon />} onClick={addTicketAction}>Add Ticket</Button>)
+        }
+        if(activePageView == 'users') {
+            return (<Button variant="contained" startIcon={<AddIcon />}>Add User</Button>)
+        }
+    }
+
+    const displayTicketViewToggler = () => {
+        if(activePageView == 'tickets') {
+            return (<ToggleButtonGroup
+                color="primary"
+                value={viewType}
+                exclusive
+                onChange={handleChange}
+            >
+                <ToggleButton value="card">
+                    <ViewModuleIcon />
+                </ToggleButton>
+                <ToggleButton value="list">
+                    <ViewListIcon />
+                </ToggleButton>
+            </ToggleButtonGroup>)
+        }
+    }
+
     return (
         <Box className={dashboardActionBarStyle.container}>
             <div className={dashboardActionBarStyle.buttonsContainer}>
                 <Stack direction="row" spacing={2}>
-                    <Button variant="contained" startIcon={<AddIcon />}>
-                        Add User
-                    </Button>
-                    <Button variant="contained" startIcon={<AddIcon />} onClick={addTicketAction}>
-                        Add Ticket
-                    </Button>
+                    {
+                        displayAddButton()
+                    }
                 </Stack>
-                <ToggleButtonGroup
-                    color="primary"
-                    value={viewType}
-                    exclusive
-                    onChange={handleChange}
-                >
-                    <ToggleButton value="card">
-                        <ViewModuleIcon />
-                    </ToggleButton>
-                    <ToggleButton value="list">
-                        <ViewListIcon />
-                    </ToggleButton>
-                </ToggleButtonGroup>
-            </div>
-            <div style={dashboardActionBarStyle.togglersContainer}>
-
+                {
+                    displayTicketViewToggler()
+                }
             </div>
         </Box>
     )
