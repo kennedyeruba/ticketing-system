@@ -1,17 +1,22 @@
 import React from 'react'
 import './ListItem.css'
+import Ticket from '../../../../../models/ticket.model'
 
-export default function ListItem() {
+interface ListItemPropType {
+  data: Ticket
+}
+
+export default function ListItem({ data }: ListItemPropType) {
   return (
     <div className="line-item">
       <div className="line-item-indicator open"></div>
       <div className="line-item-content">
         <div className="line-item-content-1">
-          <h2>Title One</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero eos impedit, et invento...</p>
+          <h2>{data.title}</h2>
+          <p>{data.description}</p>
         </div>
         <div className="line-item-content-2">
-          <h3>02/09/2022</h3>
+          <h3>{data.creationDate}</h3>
           <select>
             <option value="open">Open</option>
             <option value="blocked">Blocked</option>

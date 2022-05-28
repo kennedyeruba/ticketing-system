@@ -1,15 +1,32 @@
-import React, { useState } from 'react'
-import { Box, Button, Dialog, TextField, DialogContent, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
-import useTicketingSystemStore from '../../../store/useTicketingSystemStore'
-import { createTicket } from '../../../helpers/ticket-utilities'
+import { useEffect, useState } from 'react'
+import { 
+    Box, 
+    Button, 
+    Dialog, 
+    TextField, 
+    DialogContent, 
+    FormControl, 
+    InputLabel, 
+    Select, 
+    MenuItem, 
+    SelectChangeEvent,
+    DialogTitle
+} from '@mui/material'
+import useTicketingSystemStore from '../../../../store/useTicketingSystemStore'
+import { createTicket } from '../../../../helpers/ticket-utilities'
 
 export default function AddTicket() { 
     const ticketingSystemStore = useTicketingSystemStore
     const ticketDialogStatus = ticketingSystemStore(state => state.ticketDialogStatus)
+    const users = ticketingSystemStore(state => state.users)
 
     const [ticketTitle, setTicketTitle] = useState('')
     const [ticketDescription, setTicketDescription] = useState('')
-    const [ticketAssignee, setTicketAssignee] = useState('')
+    const [ticketAssigneeId, setTicketAssigneeId] = useState('')
+
+    useEffect(() => {
+        ticketingSystemStore.getState().retrieveUsers()
+    }, [])
 
     const handleClose = () => {
         ticketingSystemStore.getState().toggleTicketDialog(false)
@@ -24,22 +41,39 @@ export default function AddTicket() {
     };
 
     const handleAssigneeChange = (event: SelectChangeEvent) => {
-        setTicketAssignee(event.target.value as string);
-      };
+        setTicketAssigneeId(event.target.value as string);
+    };
 
     const handleAddTicket = () => {
+        const ticketAssignee = users.find(user => user.id == ticketAssigneeId)
         const newTicket = createTicket(ticketTitle, ticketDescription, ticketAssignee)
         ticketingSystemStore.getState().createNewTicket(newTicket)
-        ticketingSystemStore.setState({ ticketDialogStatus: false })
+        ticketingSystemStore.getState().toggleTicketDialog(false)
         setTicketTitle('')
         setTicketDescription('')
-        setTicketAssignee('')
+        setTicketAssigneeId('')
+    }
+
+    const displayMenuItems = () => {
+        const assignees = users.map(user => (
+            <MenuItem key={user.id} value={`${user.id}`}>{`${user.firstName} ${user.lastName}`}</MenuItem>
+        ))
+        return assignees
     }
 
     return (
         <Box>
-            {/* Ticket Dialog Begin */}
-            <Dialog open={ticketDialogStatus} onClose={handleClose}>
+            <Dialog 
+                open={ticketDialogStatus} 
+                onClose={handleClose}
+                maxWidth={'xs'}
+            >
+                <DialogTitle sx={{ 
+                    textAlign: 'center', 
+                    fontSize: '2rem', 
+                    fontWeight: '600', 
+                    letterSpacing: '-3px'
+                }}>Add Ticket</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -64,18 +98,17 @@ export default function AddTicket() {
                         <InputLabel id="demo-simple-select-filled-label">Assignee</InputLabel>
                         <Select
                             labelId="demo-simple-select-filled-label"
-                            value={ticketAssignee}
+                            value={ticketAssigneeId}
                             onChange={handleAssigneeChange}
                         >
-                            <MenuItem value='alice'>Alice</MenuItem>
-                            <MenuItem value='seyram'>Seyram</MenuItem>
-                            <MenuItem value='john'>John</MenuItem>
+                            {
+                                displayMenuItems()
+                            }
                         </Select>
                     </FormControl>
-                    <Button variant="contained" sx={{ width: '100%', mt: 1 }} onClick={handleAddTicket}>ADD TICKET</Button>
+                    <Button variant="contained" sx={{ width: '100%', mt: 1 }} onClick={handleAddTicket}>SAVE</Button>
                 </DialogContent>
             </Dialog>
-            {/* Ticket Dialog End */}
         </Box> 
     )
 }

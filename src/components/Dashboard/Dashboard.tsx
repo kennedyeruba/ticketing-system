@@ -6,10 +6,12 @@ import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
 
 import Navbar from './NavBar/Navbar'
 import DashboardActionBar from './DashboardActionBar/DashboardActionBar';
-import AddTicket from '../Dashboard/AddTicket/AddTicket';
+import AddTicket from './TicketView/AddTicket/AddTicket';
 import SideBar from './SideBar/SideBar';
 import TicketView from './TicketView/TicketView';
 import UserView from './UserView/UserView';
+import AddUser from './UserView/AddUser/AddUser';
+import SnackBar from './SnackBar/SnackBar';
 
 export default function Dashboard() {
   const ticketingSystemStore = useTicketingSystemStore;
@@ -35,7 +37,9 @@ export default function Dashboard() {
         <Navbar />
         <div className='w-4/6 mx-auto'>
           <DashboardActionBar />
+          <SnackBar />
           <AddTicket />
+          <AddUser />
           <SideBar />
           {
             displayPage()

@@ -38,12 +38,16 @@ const DashboardActionBar = () => {
         useTicketingSystemStore.getState().toggleTicketDialog(true)
     }
 
+    const addUserAction = () => {
+        useTicketingSystemStore.getState().toggleUserDialog(true)
+    }
+
     const displayAddButton = () => {
         if(activePageView == 'tickets') {
             return (<Button variant="contained" startIcon={<AddIcon />} onClick={addTicketAction}>Add Ticket</Button>)
         }
         if(activePageView == 'users') {
-            return (<Button variant="contained" startIcon={<AddIcon />}>Add User</Button>)
+            return (<Button variant="contained" startIcon={<AddIcon />} onClick={addUserAction}>Add User</Button>)
         }
     }
 

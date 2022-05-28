@@ -7,6 +7,7 @@ import ListView from './ListView/ListView';
 const TicketView = () => {
     const ticketingSystemStore = useTicketingSystemStore
     const ticketViewType = ticketingSystemStore(state => state.ticketViewType)
+
     const [viewType, setViewType] = useState('')
 
     useEffect(() => {

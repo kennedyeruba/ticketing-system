@@ -6,7 +6,7 @@ type Ticket = {
     creationDate?: string
     title: string
     description: string
-    assignee: User
+    assignee?: User
     status: TicketStatus
 }
 

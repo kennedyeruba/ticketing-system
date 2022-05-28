@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from 'react'
-import Ticket from '../../../../models/ticket.models'
+import Ticket from '../../../../models/ticket.model'
 import { Box, Grid } from '@mui/material'
 import CardItem from './CardItem/CardItem'
-import { createTicket } from '../../../../helpers/ticket-utilities'
+import useTicketingSystemStore from '../../../../store/useTicketingSystemStore'
 
 export default function CardView() {
-  const [tickets, setTickets] = useState<Ticket[]>([])
+  const ticketingSystemStore = useTicketingSystemStore
+  const tickets = ticketingSystemStore(state => state.tickets)
+  // const [tickets, setTickets] = useState<Ticket[]>([])
 
   useEffect(() => {
-    const newTickets: Ticket[] = [
-      createTicket('','','')
-    ]
-    setTickets(newTickets)
+    ticketingSystemStore.getState().retrieveTickets()
   }, [])
 
   const cardViewStyle = {
@@ -28,7 +27,7 @@ export default function CardView() {
      <Grid container spacing={2}>
       {
         tickets.map(ticket => (
-          <Grid item xs={4}>
+          <Grid key={ticket.id} item xs={4}>
             <CardItem data={ticket}/>
           </Grid>
         ))

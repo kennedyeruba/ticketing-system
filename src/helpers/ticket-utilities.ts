@@ -1,17 +1,17 @@
-import Ticket from "../models/ticket.models"
+import Ticket from "../models/ticket.model"
+import User from "../models/user.model"
 
-export function createTicket(title: string, description: string, assigneeName: string): Ticket {
+export function createTicket(
+  title: string, 
+  description: string, 
+  assignee?: User
+): Ticket {
   return {
     id: '',
     creationDate: '',
     title,
     description,
-    assignee: {
-      id: '',
-      firstName: assigneeName,
-      lastName: '',
-      email: ''
-    },
+    assignee,
     status: TicketStatus.OPEN
   }
 }
