@@ -3,6 +3,7 @@ import Ticket from '../../../../models/ticket.model'
 import { Box, Grid } from '@mui/material'
 import CardItem from './CardItem/CardItem'
 import useTicketingSystemStore from '../../../../store/useTicketingSystemStore'
+import { display } from '@mui/system'
 
 export default function CardView() {
   const ticketingSystemStore = useTicketingSystemStore
@@ -12,27 +13,14 @@ export default function CardView() {
   useEffect(() => {
     ticketingSystemStore.getState().retrieveTickets()
   }, [])
-
-  const cardViewStyle = {
-    container: {
-      width: '100%',
-      margin: '0 auto',
-      minHeight: '90vh',
-      paddingTop: '20px',
-    }
-  }
   
   return (
-   <Box sx={cardViewStyle.container}>
-     <Grid container spacing={2}>
-      {
+   <div className="card-view-container">
+     {
         tickets.map(ticket => (
-          <Grid key={ticket.id} item xs={4}>
-            <CardItem data={ticket}/>
-          </Grid>
+          <CardItem data={ticket}/>
         ))
       }
-     </Grid>
-   </Box>
+   </div>
   )
 }

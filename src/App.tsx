@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
+import useTicketingSystemStore from './store/useTicketingSystemStore';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 
 function App() {
-  const [auth, setAuth] = useState(false)
+  const ticketingSystemStore = useTicketingSystemStore
+  const loginStatus = ticketingSystemStore(state => state.loginStatus)
 
-  const onAuthEvent = () => {
-    setAuth(!auth)
-  }
+  useEffect(() => {
+    console.log('From App')
+  }, [loginStatus])
+
   return (
     <BrowserRouter>
       <div className="App">
      {
-       auth ? (
-        <Login onAuth={onAuthEvent}/>
+       loginStatus ? (
+        <Login />
        ) : (
          <Dashboard />
        )

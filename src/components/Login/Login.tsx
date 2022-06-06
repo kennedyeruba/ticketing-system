@@ -1,16 +1,22 @@
 import { useState } from 'react'
 import { TextField, Box, Paper, Button, InputAdornment, Typography, Stack, IconButton } from '@mui/material'
 import { AccountCircle, Lock, VisibilityOff, Visibility } from '@mui/icons-material'
+import useTicketingSystemStore from '../../store/useTicketingSystemStore';
 
-export default function Login(props: { onAuth: () => void }) {
+export default function Login() {
+    const ticketingSystemStore = useTicketingSystemStore;
     const [value, setValue] = useState(true)
 
+    const signIn = () => {
+        ticketingSystemStore.getState().setLoginStatus(true)
+    }
+
   return (
-    <Box className="w-full h-screen flex justify-center items-center">
-        <Paper elevation={5} className="px-5 py-10 w-96">
+    <Box className="w-full h-screen flex justify-center items-center login-container">
+        <Paper elevation={5} className="px-5 py-10 w-96 login-form">
             <Stack spacing={3}>
                 <Typography variant="h4">
-                    Ticketing System
+                    Alice &amp; co\nTicketing System
                 </Typography>
                 <TextField
                     className="mb-5"
@@ -53,7 +59,7 @@ export default function Login(props: { onAuth: () => void }) {
                         )
                     }}     
                 />
-                <Button onClick={() => props.onAuth()} variant="contained" fullWidth>Login</Button>
+                <Button onClick={signIn} variant="contained" fullWidth>Login</Button>
             </Stack>
         </Paper>
     </Box>

@@ -14,7 +14,12 @@ export default function Navbar() {
     setAnchorEl(null);
     };
 
-     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const signOut = () => {
+        ticketingSystemStore.getState().setLoginStatus(false)
+        console.log('sign out')
+    }
 
   return (
     <AppBar position="static">
@@ -30,7 +35,7 @@ export default function Navbar() {
                 <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Ticketing System
+                Alice &amp; Co
             </Typography>
             <div>
                 <IconButton
@@ -60,7 +65,7 @@ export default function Navbar() {
                 >
                     <MenuItem onClick={handleClose}>John Doe</MenuItem>
                     <Divider />
-                    <MenuItem onClick={handleClose}>Sign Out</MenuItem>
+                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
                 </Menu>
             </div>
         </Toolbar>

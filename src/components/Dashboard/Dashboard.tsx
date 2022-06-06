@@ -33,7 +33,7 @@ export default function Dashboard() {
   }
 
   return (
-    <Box className="w-full h-screen">
+    <Box className="w-full h-screen dashboard-container">
         <Navbar />
         <div className='w-4/6 mx-auto'>
           <DashboardActionBar />

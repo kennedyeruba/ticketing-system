@@ -10,6 +10,7 @@ interface ISnackBar {
 }
 
 interface TicketingSystemState {
+    loginStatus: boolean
     tickets: Ticket[]
     users: User[]
     sideBarAnchor: boolean
@@ -19,6 +20,7 @@ interface TicketingSystemState {
     userDialogStatus: boolean
     ticketViewType: string
     snackBarStatus: ISnackBar
+    setLoginStatus: (status: boolean) => void
     toggleTicketDialog: (status: boolean) => void
     toggleUserDialog: (status: boolean) => void
     toggleSnackBarStatus: (status: ISnackBar) => void
@@ -29,9 +31,11 @@ interface TicketingSystemState {
     retrieveUsers: () => void,
     toggleSideBar: (value: boolean) => void
     setActivePageView: (_selectedPageView: string) => void
+    deleteUser: (id: string) => void
 }
 
 let useTicketingSystemStore = create<TicketingSystemState>(set => ({
+    loginStatus: true,
     tickets: [],
     users: [],
     sideBarAnchor: false,
@@ -43,7 +47,8 @@ let useTicketingSystemStore = create<TicketingSystemState>(set => ({
     snackBarStatus: {
         visible: false
     },
-    toggleTicketDialog: (status) => set({ ticketDialogStatus: status }),
+    setLoginStatus: status => set({ loginStatus: status }),
+    toggleTicketDialog: status => set({ ticketDialogStatus: status }),
     toggleUserDialog: (status) => set({ userDialogStatus: status }),
     toggleSnackBarStatus: (status) => set({ snackBarStatus: status }),
     setDashboardViewType: (_ticketViewType) => set({ ticketViewType: _ticketViewType }),
@@ -86,8 +91,11 @@ let useTicketingSystemStore = create<TicketingSystemState>(set => ({
         set({ users })
         console.log('Users retrieved: ', users)
     },
-    toggleSideBar: (value) => set({ sideBarAnchor: value }),
-    setActivePageView: (_selectedPageView) => set({ activePageView: _selectedPageView })
+    toggleSideBar: value => set({ sideBarAnchor: value }),
+    setActivePageView: _selectedPageView => set({ activePageView: _selectedPageView }),
+    deleteUser: id => {
+        console.log(id)
+    }
 }))
 
 export default useTicketingSystemStore

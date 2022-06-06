@@ -1,5 +1,5 @@
 .open {
-  background: rgb(56, 115, 203);
+  background: #1976d2;
 }
 
 .blocked {
@@ -8,4 +8,30 @@
 
 .closed {
   background: rgb(102, 171, 0);
+}
+
+.dashboard-container {
+  background: url(../public/bg.jpg);
+}
+
+.card-view-container {
+  width: 100%;
+  max-height: 85vh;
+  padding: 20px 10px 10px;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: start;
+  column-gap: 50px;
+  row-gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
+.login-container {
+  background: url(../public/bg.jpg);
+}
+
+.login-form {
+  background: rgba(255, 255, 255, 0.7) !important;
 }

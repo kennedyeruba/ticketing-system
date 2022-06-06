@@ -18,7 +18,7 @@ const DashboardActionBar = () => {
     }, [currentPageView])
 
     const dashboardActionBarStyle = {
-        container: 'border-b-2 h-16 border-gray-200 pt-4 pb-2.5',
+        container: 'border-b-2 h-16 border-gray-400 pt-4 pb-2.5',
         buttonsContainer: 'h-full flex justify-between w-full',
         togglersContainer: {
             width: '100px',
@@ -77,9 +77,9 @@ const DashboardActionBar = () => {
                         displayAddButton()
                     }
                 </Stack>
-                {
+                {/* {
                     displayTicketViewToggler()
-                }
+                } */}
             </div>
         </Box>
     )
