@@ -16,7 +16,7 @@ export default function Login() {
         <Paper elevation={5} className="px-5 py-10 w-96 login-form">
             <Stack spacing={3}>
                 <Typography variant="h4">
-                    Alice &amp; co\nTicketing System
+                    Alice &amp; co Ticketing System
                 </Typography>
                 <TextField
                     className="mb-5"
