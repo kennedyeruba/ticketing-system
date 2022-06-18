@@ -14,22 +14,41 @@ import {
 } from '@mui/material'
 import useTicketingSystemStore from '../../../../store/useTicketingSystemStore'
 import { createTicket } from '../../../../helpers/ticket-utilities'
+import User from '../../../../models/user.model'
 
 export default function AddTicket() { 
     const ticketingSystemStore = useTicketingSystemStore
     const ticketDialogStatus = ticketingSystemStore(state => state.ticketDialogStatus)
     const users = ticketingSystemStore(state => state.users)
+    const selectedTicket = ticketingSystemStore(state => state.selectedTicket)
 
     const [ticketTitle, setTicketTitle] = useState('')
     const [ticketDescription, setTicketDescription] = useState('')
     const [ticketAssigneeId, setTicketAssigneeId] = useState('')
+    const [ buttonText, setButtonText ] = useState('')
+    const [activeTicket, setActiveTicket] = useState({})
 
     useEffect(() => {
         ticketingSystemStore.getState().retrieveUsers()
+        setButtonText('SAVE')
     }, [])
+
+    useEffect(() => {
+        if(selectedTicket.title !== undefined) {
+            const { title, description,  assignee } = selectedTicket
+            setTicketTitle(title as string)
+            setTicketDescription(description as string)
+            setTicketAssigneeId(assignee?.id as string)
+            setButtonText('UPDATE')
+        }
+    }, [selectedTicket])
 
     const handleClose = () => {
         ticketingSystemStore.getState().toggleTicketDialog(false)
+        setTicketTitle('')
+        setTicketDescription('')
+        setTicketAssigneeId('')
+        setButtonText('SAVE')
     };
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,14 +63,35 @@ export default function AddTicket() {
         setTicketAssigneeId(event.target.value as string);
     };
 
-    const handleAddTicket = () => {
-        const ticketAssignee = users.find(user => user.id == ticketAssigneeId)
-        const newTicket = createTicket(ticketTitle, ticketDescription, ticketAssignee)
-        ticketingSystemStore.getState().createNewTicket(newTicket)
-        ticketingSystemStore.getState().toggleTicketDialog(false)
-        setTicketTitle('')
-        setTicketDescription('')
-        setTicketAssigneeId('')
+    const handleBtnClick = () => {
+        switch(buttonText) {
+            case 'SAVE':
+                if(ticketTitle !== "" && ticketDescription !== "" && ticketAssigneeId !== "") {
+                    const ticketAssignee = users.find(user => user.id == ticketAssigneeId)
+                    const newTicket = createTicket(ticketTitle, ticketDescription, ticketAssignee)
+                    ticketingSystemStore.getState().createNewTicket(newTicket)
+                    ticketingSystemStore.getState().toggleTicketDialog(false)
+                    setTicketTitle('')
+                    setTicketDescription('')
+                    setTicketAssigneeId('')
+                } else {
+                    alert('Fill all fields before submitting')
+                }
+                break;
+            case 'UPDATE':
+                if(ticketTitle !== "" && ticketDescription !== "" && ticketAssigneeId !== "") {
+                    const user = users.find(user => (user.id as string) === ticketAssigneeId)
+                    const modifiedTicket = { ...selectedTicket, title: ticketTitle, description: ticketDescription, assignee: user as User }
+                    ticketingSystemStore.getState().updateTicket(modifiedTicket)
+                    ticketingSystemStore.getState().toggleTicketDialog(false)
+                    setTicketTitle('')
+                    setTicketDescription('')
+                    setTicketAssigneeId('')
+                    setButtonText('SAVE')
+                } else {
+                    alert('Fill all fields before submitting')
+                }
+        }
     }
 
     const displayMenuItems = () => {
@@ -106,7 +146,9 @@ export default function AddTicket() {
                             }
                         </Select>
                     </FormControl>
-                    <Button variant="contained" sx={{ width: '100%', mt: 1 }} onClick={handleAddTicket}>SAVE</Button>
+                    <Button variant="contained" sx={{ width: '100%', mt: 1 }} onClick={handleBtnClick}>
+                        { buttonText }
+                    </Button>
                 </DialogContent>
             </Dialog>
         </Box> 

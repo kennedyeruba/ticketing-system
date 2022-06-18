@@ -71,7 +71,7 @@ const DashboardActionBar = () => {
 
     return (
         <Box className={dashboardActionBarStyle.container}>
-            <div className={dashboardActionBarStyle.buttonsContainer}>
+            <div className={dashboardActionBarStyle.buttonsContainer} >
                 <Stack direction="row" spacing={2}>
                     {
                         displayAddButton()

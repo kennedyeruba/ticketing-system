@@ -33,12 +33,16 @@ const AddUser = () => {
     }
 
     const handleAddUser = () => {
-        const newUser = createUser(firstName, lastName, email)
-        ticketingSystemStore.getState().createNewUser(newUser)
-        ticketingSystemStore.getState().toggleUserDialog(false)
-        setFirstName('')
-        setLastName('')
-        setEmail('')
+        if(firstName !== '' && lastName !== '' && email !== '') {
+            const newUser = createUser(firstName, lastName, email)
+            ticketingSystemStore.getState().createNewUser(newUser)
+            ticketingSystemStore.getState().toggleUserDialog(false)
+            setFirstName('')
+            setLastName('')
+            setEmail('')
+        } else {
+            alert('Fill all fields before submitting')
+        }
     }
 
     const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {

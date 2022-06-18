@@ -18,7 +18,7 @@ export default function CardView() {
    <div className="card-view-container">
      {
         tickets.map(ticket => (
-          <CardItem data={ticket}/>
+          <CardItem key={ticket.id} data={ticket}/>
         ))
       }
    </div>

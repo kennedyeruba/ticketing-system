@@ -12,6 +12,9 @@
 
 .dashboard-container {
   background: url(../public/bg.jpg);
+  min-height: 100vh;
+  padding-top: 80px;
+  height: fit-content;
 }
 
 .card-view-container {

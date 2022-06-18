@@ -1,28 +1,40 @@
-import React from 'react'
-import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Divider } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Divider, Button } from '@mui/material'
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material'
 import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
+import { useNavigate } from 'react-router';
+import User from '../../../models/user.model';
+import { userInfo } from 'os';
 
 export default function Navbar() {
     const ticketingSystemStore = useTicketingSystemStore
+    const [activeUser, setActiveUser] = useState<User>({})
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const data = localStorage.getItem('active-user')
+        const user = JSON.parse(data as string) as User
+        setActiveUser(user)
+        console.log('Active User: ', user)
+    }, [])
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
-    setAnchorEl(null);
+        setAnchorEl(null);
     };
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const signOut = () => {
-        ticketingSystemStore.getState().setLoginStatus(false)
-        console.log('sign out')
+        navigate('/login')
+        ticketingSystemStore.getState().signOut()
     }
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
         <Toolbar>
             <IconButton
                 size="large"
@@ -63,9 +75,15 @@ export default function Navbar() {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose}>John Doe</MenuItem>
+                    <MenuItem onClick={handleClose}>
+                        {
+                            `${activeUser.firstName} ${activeUser.lastName}`
+                        }
+                    </MenuItem>
                     <Divider />
-                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                    <MenuItem onClick={signOut}>
+                        <Button sx={{ margin: "auto" }} variant="contained">Sign Out</Button>
+                    </MenuItem>
                 </Menu>
             </div>
         </Toolbar>

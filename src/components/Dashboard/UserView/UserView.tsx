@@ -18,12 +18,8 @@ const UserView = () => {
     const ticketingSystemStore = useTicketingSystemStore;
     const users = ticketingSystemStore(state => state.users);
 
-    useEffect(() => {
-        console.log('From User View: ', users);
-    }, [users]);
-
     return (
-        <TableContainer component={Paper} sx={{ marginTop: '40px', width: '100%', fontFamily: 'Poppins' }}>
+        <TableContainer component={Paper} sx={{ margin: 'auto', marginTop: '40px', width: '80%', fontFamily: 'Poppins', background: 'rgba(255, 255, 255, 0.7)' }}>
             <Table aria-label="simple table">
                 <TableHead sx={{ background: '#1976d2;', fontFamily: 'Poppins' }}>
                     <TableRow>
@@ -37,7 +33,7 @@ const UserView = () => {
                     {users.map((user) => (
                         <TableRow
                             key={user.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            
                         >
                             <TableCell component="th" scope="row" sx={{ fontWeight: '600' }}>
                                 {user.firstName}
