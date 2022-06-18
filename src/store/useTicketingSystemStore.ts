@@ -40,7 +40,7 @@ interface TicketingSystemState {
     signOut: () => void
 }
 
-const baseUrl = 'http://localhost:8095'
+const baseUrl = 'https://alice-ticketing-system-server.herokuapp.com'
 
 let useTicketingSystemStore = create<TicketingSystemState>((set, get) => ({
     loginStatus: false,
