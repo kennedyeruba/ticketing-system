@@ -18,10 +18,6 @@ export default function Login() {
         ticketingSystemStore.getState().retrieveUsers()
     }, [])
 
-    useEffect(() => {
-        console.log(users)
-    }, [users])
-
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
     }
@@ -33,7 +29,7 @@ export default function Login() {
     const signIn = () => {
         const user = users.find(user => user.email == email) as User
         if(email !== '' && password !== '') {
-            if(email === user?.email && password === `${user?.email}$${user?.lastName?.toUpperCase()}`) {
+            if(email === user?.email && password === `${user?.email}$$$`) {
                 localStorage.setItem('active-user', JSON.stringify(user))
                 navigate('/dashboard')
             } else {

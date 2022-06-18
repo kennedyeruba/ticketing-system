@@ -4,7 +4,6 @@ import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material'
 import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
 import { useNavigate } from 'react-router';
 import User from '../../../models/user.model';
-import { userInfo } from 'os';
 
 export default function Navbar() {
     const ticketingSystemStore = useTicketingSystemStore
@@ -15,7 +14,6 @@ export default function Navbar() {
         const data = localStorage.getItem('active-user')
         const user = JSON.parse(data as string) as User
         setActiveUser(user)
-        console.log('Active User: ', user)
     }, [])
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
