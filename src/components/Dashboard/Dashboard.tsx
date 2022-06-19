@@ -4,7 +4,7 @@ import useTicketingSystemStore from '../../store/useTicketingSystemStore';
 import { Box, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material';
 import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';
 
-import NavBar from './NavBar/NavBar';
+import TopNavBar from './TopNavBar/TopNavBar';
 import DashboardActionBar from './DashboardActionBar/DashboardActionBar';
 import AddTicket from './TicketView/AddTicket/AddTicket';
 import SideBar from './SideBar/SideBar';
@@ -33,7 +33,7 @@ export default function Dashboard() {
 
   return (
     <Box className="w-full h-screen dashboard-container">
-        <NavBar />
+        <TopNavBar />
         <div className='w-4/6 mx-auto'>
           <DashboardActionBar />
           <AddTicket />

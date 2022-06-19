@@ -5,7 +5,7 @@ import useTicketingSystemStore from '../../../store/useTicketingSystemStore';
 import { useNavigate } from 'react-router';
 import User from '../../../models/user.model';
 
-const NavBar = () => {
+const TopNavBar = () => {
     const ticketingSystemStore = useTicketingSystemStore
     const [activeUser, setActiveUser] = useState<User>({})
     const navigate = useNavigate()
@@ -89,4 +89,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar
+export default TopNavBar
